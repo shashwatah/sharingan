@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        p {
+            position: fixed;
+            display: contents;
+            top: 0px;
+            left: 0px;
+        }
+
+        video {
+            height: 600px;
+            width: 600px;
+            display: none;
+        }
+
+        canvas {
+            height: 600px;
+            width: 600px;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <p>Loading...</p>
+    <video height="600" width="600" autoplay></video>
+    <canvas></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+
+    <script type = "text/javascript">
+    const cocoSSD = require("@tensorflow-models/coco-ssd");
+
+    let video;
+
+    predictWithCocoModel = async () => {
+        const model = await cocoSSD.load('lite_mobilenet_v2');
+        detectFrame(video, model);
+    }
+
+    detectFrame = (video, model) => {
+        model.detect(video).then(predictions => {
+            document.querySelector("p").classList.add("hidden");
+            renderPredictions(predictions);
+            requestAnimationFrame(() => {
+                detectFrame(video, model);
+            });
+        });
+    }
+
+    webcamInit = () => {
+        errorCallback = (e) => {
+            console.log('Error', e);
+        }
+
+        navigator.getUserMedia({video: true, audio: false}, (localMediaStream) => {
+            video = document.querySelector('video');
+            video.srcObject = localMediaStream;
+
+            video.onloadedmetadata = (e) => {
+                predictWithCocoModel();
+            };
+        }, errorCallback);
+    }
+
+    renderPredictions = (predictions) => {
+        const canvas = document.querySelector("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width  = 600;
+        canvas.height = 600;
+
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        // Font options.
+        const font = "16px sans-serif";
+        ctx.font = font;
+        ctx.textBaseline = "top";
+        ctx.drawImage(video,0,0);
+
+        predictions.forEach(prediction => {
+            const x = prediction.bbox[0];
+            const y = prediction.bbox[1];
+            const width = prediction.bbox[2];
+            const height = prediction.bbox[3];
+            // Draw the bounding box.
+            ctx.strokeStyle = "#00FFFF";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, width, height);
+            // Draw the label background.
+            ctx.fillStyle = "#00FFFF";
+            const textWidth = ctx.measureText(prediction.class).width;
+            const textHeight = parseInt(font, 10); // base 10
+            ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+        });
+
+        predictions.forEach(prediction => {
+            const x = prediction.bbox[0];
+            const y = prediction.bbox[1];
+            // Draw the text last to ensure it's on top.
+            ctx.fillStyle = "#000000";
+            ctx.fillText(prediction.class, x, y);
+        });
+    };
+
+    webcamInit();
+    
+        
+    </script>
+</body>
+</html>
