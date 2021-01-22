@@ -19,7 +19,8 @@ renderMainWindow = () => {
         webPreferences: {
             nodeIntegration: true
         },
-        show: false
+        show: false,
+        frame: false
     });
 
     mainWindow.loadURL(url.format({
