@@ -1,0 +1,162 @@
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg);
+    } 
+}
+
+html {
+    background: white;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: Lato, "Lato", sans-serif;
+}
+
+* {
+    user-select: none;
+}
+
+*:focus {
+    outline: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.hidden {
+    display: none;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#particles-bg {
+    position: fixed;
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+}
+
+#title-bar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 25px;
+    width: 100%;
+    z-index: 1;
+    background: rgba(0,0,0,0.2);
+}
+
+#main-container {
+    position: fixed;
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 25px;
+    left: 0px;
+    z-index: 1;
+}
+
+#loader {
+    position: relative;
+    margin: auto;
+    margin-top: 125px;
+    height: 250px;
+    width: 250px;
+    text-align: center;
+}
+
+#loader-el {
+    position: relative;
+}
+
+#loader-img {
+    height: 150px;
+    width: 150px;
+    animation:spin 2s linear infinite;
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+#loader-text {
+    font-weight: 500;
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+#loader-footer {
+    font-weight: 500;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 155px;
+    color: #848484;
+}
+
+#input-choice-container {
+    position: relative;
+    margin: auto;
+    height: 300px;
+    width: 720px;
+    margin-top: 112.5px;
+}
+
+#input-choice-heading {
+    position: fixed;
+    height: 20px;
+    width: 175px;
+    text-align: center;
+    left: 337.5px;
+    bottom: 30px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.input-choice {
+    position: relative;
+    height: 100%;
+    width: 220px;
+    margin-left: 30px;
+    background: rgba(0,0,0,0.2);
+    clip-path: polygon(15% 0, 100% 0, 100% 90%, 85% 100%, 0 100%, 0 10%);
+    cursor: pointer;
+    text-align: center;
+}
+
+#input-choice-w {
+    margin-left: 0px;
+}
+
+.input-choice:hover {
+    background: rgba(0,0,0,0.4)
+}
+
+.input-choice-img {
+    position: relative;
+    height: 100px;
+    width: 100px;
+    margin-top: 75px;
+}
+
+.input-choice-name {
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* .input-choice:after {
+    content: '';
+    position: absolute;
+    width: 1100%; height: 1100%;
+    top: 20px; right: -500%;
+    background: rgba(255,255,255,.8);
+    transform-origin: 54% 0;
+    transform: rotate(45deg);
+    z-index: 1;
+  } */
+

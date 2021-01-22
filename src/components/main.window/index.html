@@ -2,90 +2,6 @@
 <html lang="en">
 <head>
     <style>
-        @keyframes spin { 
-            100% { 
-                -webkit-transform: rotate(360deg); 
-                transform:rotate(360deg);
-            } 
-        }
-
-        html {
-            background: white;
-        }
-
-        body {
-            margin: 0px;
-            padding: 0px;
-            font-family: Lato, "Lato", sans-serif;
-        }
-
-        * {
-            user-select: none;
-        }
-
-        *:focus {
-            outline: none;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        #particles-bg {
-            position: fixed;
-            display: block;
-            height: 100%;
-            width: 100%;
-            top: 0px;
-            left: 0px;
-            z-index: 0;
-        }
-
-        #main-container {
-            position: fixed;
-            display: block;
-            height: 100%;
-            width: 100%;
-            top: 0px;
-            left: 0px;
-            z-index: 1;
-        }
-
-        #loader {
-            position: relative;
-            margin: auto;
-            margin-top: 125px;
-            height: 250px;
-            width: 250px;
-            text-align: center;
-        }
-
-        #loader-el {
-            position: relative;
-        }
-
-        #loader-img {
-            height: 150px;
-            width: 150px;
-            animation:spin 2s linear infinite;
-        }
-
-        #loader-text {
-            font-weight: 500;
-            font-size: 18px;
-            margin-top: 5px;
-        }
-
-        #loader-footer {
-            font-weight: 500;
-            font-size: 14px;
-            font-weight: bold;
-            margin-top: 150px;
-            color: #848484;
-        }
-
-
         /*
         .input-btn {
             display: inline-block;
@@ -116,6 +32,7 @@
             left: 0px;
         } */
     </style>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>    
     <!-- <button class="input-btn" id="rt-btn" type="button" value="real-time">real-time</button>
@@ -141,148 +58,37 @@
 
     <canvas id="particles-bg"></canvas>
 
+    <div id="title-bar"></div>
+
     <div class="container" id="main-container">
         <div class="el" id="loader">
                 <img class="loader-el" id="loader-img" type="image/png" draggable="false" src="./../../../assets/images/logos/sharingan.png"/>
                 <p class="loader-el" id="loader-text">Loading Tensorflow model</p>
 
-                <p class="loader-el" id="loader-footer">© Araekiel 2021</p>
+                <p class="loader-el" id="loader-footer">© Araekiel 2021 | MIT License</p>
         </div>
+
+        <div class="el hidden" id="input-choice-container">
+            <p id="input-choice-heading">Choose your input mode</p>
+
+            <div class="input-choice" id="input-choice-w">
+                <img class="input-choice-img" id="ic-w-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/webcam-black.svg"/>
+                <p class="input-choice-name" id="ic-w-name">Webcam</p>
+            </div>    
+            <div class="input-choice" id="input-choice-v">
+                <img class="input-choice-img" id="ic-v-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/video-2.svg"/>
+                <p class="input-choice-name" id="ic-v-name">Video</p>
+            </div>
+            <div class="input-choice" id="input-choice-i">
+                <img class="input-choice-img" id="ic-i-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/image-5.svg"/>
+                <p class="input-choice-name" id="ic-i-name">Image</p>
+            </div>
+        </div>
+
     </div>
 
 
-    <script src="./../../utils/particles.min.js"></script>
-    <script type = "text/javascript">
-        require("@tensorflow/tfjs");
-        require("@tensorflow/tfjs-backend-cpu");
-
-        const cocoSSD = require("@tensorflow-models/coco-ssd");
-        
-        let model;
-
-        const loader = document.getElementById("loader");
-
-        window.onload = () => {
-            Particles.init({
-                selector: '#particles-bg',
-                color: "#CCCCCC",
-                connectParticles: true,
-                speed: 0.2,
-                minDistance: 150
-            });
-
-            loadModel();
-        };
-
-
-        const loadModel = async () => {
-            model = await cocoSSD.load('lite_mobilenet_v2')
-            loader.classList.add("hidden");
-            console.log("model loaded", model);
-        };
-
-        // const btns = Array.from(document.getElementsByClassName("input-btn"));
-        // const sourceInputContainers = Array.from(document.getElementsByClassName("source-input-container"));
-        // const submitBtns = Array.from(document.getElementsByClassName("input-submit-btn"));
-        // const video = document.getElementById("input-rt-video");
-        // let videoStream;
-
-        // btns.forEach((btn) => {
-        //     btn.addEventListener("click", (event) => {
-        //         sourceInputContainers.forEach((container) => {
-        //             console.log(container.getAttribute("data-btn"), btn.getAttribute("id"))
-        //             container.getAttribute("data-btn") === btn.getAttribute("id") ? container.classList.remove("hidden") : container.classList.add("hidden");
-        //         });
- 
-        //         if(btn.getAttribute("id") === "rt-btn") {
-        //             webcamInit();
-        //         } else {
-        //             videoStream.getTracks().forEach(function(track) {
-        //                 track.stop();
-        //             });
-        //         }
-        //     });
-        // });
-
-        // submitBtns.forEach((submitBtn) => {
-        //     submitBtn.addEventListener("click", (event) => {
-        //         console.log(document.getElementById(submitBtn.getAttribute("data-input")).files[0].path);
-        //     });
-        // });
-        
-
-        // predictWithCocoModel = async () => {
-        
-        //     detectFrame(video, model);
-        // }
-
-        // detectFrame = (video, model) => {
-        //     model.detect(video).then(predictions => {
-        //         document.querySelector("p").classList.add("hidden");
-        //         renderPredictions(predictions);
-        //         requestAnimationFrame(() => {
-        //             detectFrame(video, model);
-        //         });
-        //     });
-        // }
-
-        // webcamInit = () => {
-        //     errorCallback = (e) => {
-        //         console.log('Error', e);
-        //     }
-
-        //     navigator.getUserMedia({video: true, audio: false}, (localMediaStream) => {
-        //         videoStream = localMediaStream;
-        //         video.srcObject = videoStream;
-
-        //         // video.onloadedmetadata = (e) => {
-        //         //     predictWithCocoModel();
-        //         // };
-        //     }, errorCallback);
-        // }
-
-        // renderPredictions = (predictions) => {
-        //     const canvas = document.querySelector("canvas");
-        //     const ctx = canvas.getContext("2d");
-
-        //     canvas.width  = 600;
-        //     canvas.height = 600;
-
-        //     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        //     // Font options.
-        //     const font = "16px sans-serif";
-        //     ctx.font = font;
-        //     ctx.textBaseline = "top";
-        //     ctx.drawImage(video,0,0);
-
-        //     predictions.forEach(prediction => {
-        //         const x = prediction.bbox[0];
-        //         const y = prediction.bbox[1];
-        //         const width = prediction.bbox[2];
-        //         const height = prediction.bbox[3];
-        //         // Draw the bounding box.
-        //         ctx.strokeStyle = "#00FFFF";
-        //         ctx.lineWidth = 2;
-        //         ctx.strokeRect(x, y, width, height);
-        //         // Draw the label background.
-        //         ctx.fillStyle = "#00FFFF";
-        //         const textWidth = ctx.measureText(prediction.class).width;
-        //         const textHeight = parseInt(font, 10); // base 10
-        //         ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-        //     });
-
-        //     predictions.forEach(prediction => {
-        //         const x = prediction.bbox[0];
-        //         const y = prediction.bbox[1];
-        //         // Draw the text last to ensure it's on top.
-        //         ctx.fillStyle = "#000000";
-        //         ctx.fillText(prediction.class, x, y);
-        //     });
-        // };
-
-        // webcamInit();
-    
-        
-    </script>
+    <script type="text/javascript" src="./../../utils/particles.min.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
 </body>
 </html>
