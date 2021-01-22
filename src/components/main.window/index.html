@@ -2,11 +2,100 @@
 <html lang="en">
 <head>
     <style>
+        @keyframes spin { 
+            100% { 
+                -webkit-transform: rotate(360deg); 
+                transform:rotate(360deg);
+            } 
+        }
+
+        html {
+            background: white;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: Lato, "Lato", sans-serif;
+        }
+
+        * {
+            user-select: none;
+        }
+
+        *:focus {
+            outline: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
         .hidden {
             display: none;
         }
 
-        p {
+        #particles-bg {
+            position: fixed;
+            display: block;
+            height: 100%;
+            width: 100%;
+            top: 0px;
+            left: 0px;
+            z-index: 0;
+        }
+
+        #main-container {
+            position: fixed;
+            display: block;
+            height: 100%;
+            width: 100%;
+            top: 0px;
+            left: 0px;
+            z-index: 1;
+        }
+
+        #loader {
+            position: relative;
+            margin: auto;
+            margin-top: 125px;
+            height: 250px;
+            width: 250px;
+            text-align: center;
+        }
+
+        #loader-el {
+            position: relative;
+        }
+
+        #loader-img {
+            height: 150px;
+            width: 150px;
+            animation:spin 2s linear infinite;
+        }
+
+        #loader-text {
+            font-weight: 500;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        #loader-footer {
+            font-weight: 500;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 150px;
+            color: #848484;
+        }
+
+
+        /*
+        .input-btn {
+            display: inline-block;
+        }
+
+        .source-input-container {
+            margin-top: 25px;
+        } */
+
+        /* p {
             position: fixed;
             display: contents;
             top: 0px;
@@ -25,93 +114,173 @@
             position: fixed;
             top: 0px;
             left: 0px;
-        }
+        } */
     </style>
 </head>
-<body>
-    <p>Loading...</p>
-    <video height="600" width="600" autoplay></video>
-    <canvas></canvas>
+<body>    
+    <!-- <button class="input-btn" id="rt-btn" type="button" value="real-time">real-time</button>
+    <button class="input-btn" id="v-btn" type="button" value="video">video</button>
+    <button class="input-btn" id="i-btn" type="button" value="image">image</button>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <div class="source-input-container hidden" id="source-input-rt" data-btn="rt-btn">
+        <video class="source-input" id="input-rt-video" autoplay></video>
+        <canvas class="source-input" id="input-rt-canvas"></canvas>
+    </div>
 
+    <div class="source-input-container hidden" id="source-input-v" data-btn="v-btn">
+        <label for="input-file-v">Choose Video</label>
+        <input class="source-input" id="input-file-v" type="file" accept="video/avi, video/mp4"/>
+        <button class="input-submit-btn" data-input="input-file-v">Submit</button>
+    </div>
+     
+    <div class="source-input-container hidden" id="source-input-i" data-btn="i-btn">
+        <label for="input-file-i">Choose Image</label>
+        <input class="source-input" id="input-file-i" type="file" accept="image/png, image/jpeg"/> 
+        <button class="input-submit-btn" data-input="input-file-i">Submit</button>
+    </div>     -->
+
+    <canvas id="particles-bg"></canvas>
+
+    <div class="container" id="main-container">
+        <div class="el" id="loader">
+                <img class="loader-el" id="loader-img" type="image/png" draggable="false" src="./../../../assets/images/logos/sharingan.png"/>
+                <p class="loader-el" id="loader-text">Loading Tensorflow model</p>
+
+                <p class="loader-el" id="loader-footer">© Araekiel 2021</p>
+        </div>
+    </div>
+
+
+    <script src="./../../utils/particles.min.js"></script>
     <script type = "text/javascript">
-    const cocoSSD = require("@tensorflow-models/coco-ssd");
+        require("@tensorflow/tfjs");
+        require("@tensorflow/tfjs-backend-cpu");
 
-    let video;
+        const cocoSSD = require("@tensorflow-models/coco-ssd");
+        
+        let model;
 
-    predictWithCocoModel = async () => {
-        const model = await cocoSSD.load('lite_mobilenet_v2');
-        detectFrame(video, model);
-    }
+        const loader = document.getElementById("loader");
 
-    detectFrame = (video, model) => {
-        model.detect(video).then(predictions => {
-            document.querySelector("p").classList.add("hidden");
-            renderPredictions(predictions);
-            requestAnimationFrame(() => {
-                detectFrame(video, model);
+        window.onload = () => {
+            Particles.init({
+                selector: '#particles-bg',
+                color: "#CCCCCC",
+                connectParticles: true,
+                speed: 0.2,
+                minDistance: 150
             });
-        });
-    }
 
-    webcamInit = () => {
-        errorCallback = (e) => {
-            console.log('Error', e);
-        }
+            loadModel();
+        };
 
-        navigator.getUserMedia({video: true, audio: false}, (localMediaStream) => {
-            video = document.querySelector('video');
-            video.srcObject = localMediaStream;
 
-            video.onloadedmetadata = (e) => {
-                predictWithCocoModel();
-            };
-        }, errorCallback);
-    }
+        const loadModel = async () => {
+            model = await cocoSSD.load('lite_mobilenet_v2')
+            loader.classList.add("hidden");
+            console.log("model loaded", model);
+        };
 
-    renderPredictions = (predictions) => {
-        const canvas = document.querySelector("canvas");
-        const ctx = canvas.getContext("2d");
+        // const btns = Array.from(document.getElementsByClassName("input-btn"));
+        // const sourceInputContainers = Array.from(document.getElementsByClassName("source-input-container"));
+        // const submitBtns = Array.from(document.getElementsByClassName("input-submit-btn"));
+        // const video = document.getElementById("input-rt-video");
+        // let videoStream;
 
-        canvas.width  = 600;
-        canvas.height = 600;
+        // btns.forEach((btn) => {
+        //     btn.addEventListener("click", (event) => {
+        //         sourceInputContainers.forEach((container) => {
+        //             console.log(container.getAttribute("data-btn"), btn.getAttribute("id"))
+        //             container.getAttribute("data-btn") === btn.getAttribute("id") ? container.classList.remove("hidden") : container.classList.add("hidden");
+        //         });
+ 
+        //         if(btn.getAttribute("id") === "rt-btn") {
+        //             webcamInit();
+        //         } else {
+        //             videoStream.getTracks().forEach(function(track) {
+        //                 track.stop();
+        //             });
+        //         }
+        //     });
+        // });
 
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        // Font options.
-        const font = "16px sans-serif";
-        ctx.font = font;
-        ctx.textBaseline = "top";
-        ctx.drawImage(video,0,0);
+        // submitBtns.forEach((submitBtn) => {
+        //     submitBtn.addEventListener("click", (event) => {
+        //         console.log(document.getElementById(submitBtn.getAttribute("data-input")).files[0].path);
+        //     });
+        // });
+        
 
-        predictions.forEach(prediction => {
-            const x = prediction.bbox[0];
-            const y = prediction.bbox[1];
-            const width = prediction.bbox[2];
-            const height = prediction.bbox[3];
-            // Draw the bounding box.
-            ctx.strokeStyle = "#00FFFF";
-            ctx.lineWidth = 2;
-            ctx.strokeRect(x, y, width, height);
-            // Draw the label background.
-            ctx.fillStyle = "#00FFFF";
-            const textWidth = ctx.measureText(prediction.class).width;
-            const textHeight = parseInt(font, 10); // base 10
-            ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-        });
+        // predictWithCocoModel = async () => {
+        
+        //     detectFrame(video, model);
+        // }
 
-        predictions.forEach(prediction => {
-            const x = prediction.bbox[0];
-            const y = prediction.bbox[1];
-            // Draw the text last to ensure it's on top.
-            ctx.fillStyle = "#000000";
-            ctx.fillText(prediction.class, x, y);
-        });
-    };
+        // detectFrame = (video, model) => {
+        //     model.detect(video).then(predictions => {
+        //         document.querySelector("p").classList.add("hidden");
+        //         renderPredictions(predictions);
+        //         requestAnimationFrame(() => {
+        //             detectFrame(video, model);
+        //         });
+        //     });
+        // }
 
-    webcamInit();
+        // webcamInit = () => {
+        //     errorCallback = (e) => {
+        //         console.log('Error', e);
+        //     }
+
+        //     navigator.getUserMedia({video: true, audio: false}, (localMediaStream) => {
+        //         videoStream = localMediaStream;
+        //         video.srcObject = videoStream;
+
+        //         // video.onloadedmetadata = (e) => {
+        //         //     predictWithCocoModel();
+        //         // };
+        //     }, errorCallback);
+        // }
+
+        // renderPredictions = (predictions) => {
+        //     const canvas = document.querySelector("canvas");
+        //     const ctx = canvas.getContext("2d");
+
+        //     canvas.width  = 600;
+        //     canvas.height = 600;
+
+        //     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        //     // Font options.
+        //     const font = "16px sans-serif";
+        //     ctx.font = font;
+        //     ctx.textBaseline = "top";
+        //     ctx.drawImage(video,0,0);
+
+        //     predictions.forEach(prediction => {
+        //         const x = prediction.bbox[0];
+        //         const y = prediction.bbox[1];
+        //         const width = prediction.bbox[2];
+        //         const height = prediction.bbox[3];
+        //         // Draw the bounding box.
+        //         ctx.strokeStyle = "#00FFFF";
+        //         ctx.lineWidth = 2;
+        //         ctx.strokeRect(x, y, width, height);
+        //         // Draw the label background.
+        //         ctx.fillStyle = "#00FFFF";
+        //         const textWidth = ctx.measureText(prediction.class).width;
+        //         const textHeight = parseInt(font, 10); // base 10
+        //         ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+        //     });
+
+        //     predictions.forEach(prediction => {
+        //         const x = prediction.bbox[0];
+        //         const y = prediction.bbox[1];
+        //         // Draw the text last to ensure it's on top.
+        //         ctx.fillStyle = "#000000";
+        //         ctx.fillText(prediction.class, x, y);
+        //     });
+        // };
+
+        // webcamInit();
     
         
     </script>

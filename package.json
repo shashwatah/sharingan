@@ -19,6 +19,7 @@
   "dependencies": {
     "@tensorflow-models/coco-ssd": "^2.2.1",
     "@tensorflow/tfjs": "^2.8.5",
+    "@tensorflow/tfjs-backend-cpu": "^2.8.5",
     "electron": "^11.2.0"
   }
 }
