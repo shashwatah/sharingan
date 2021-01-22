@@ -66,7 +66,7 @@ body {
 #loader {
     position: relative;
     margin: auto;
-    margin-top: 125px;
+    margin-top: 150px;
     height: 250px;
     width: 250px;
     text-align: center;
@@ -87,14 +87,14 @@ body {
 #loader-text {
     font-weight: 500;
     font-size: 18px;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 #loader-footer {
     font-weight: 500;
     font-size: 14px;
     font-weight: bold;
-    margin-top: 155px;
+    margin-top: 125px;
     color: #848484;
 }
 
@@ -109,9 +109,9 @@ body {
 #input-choice-heading {
     position: fixed;
     height: 20px;
-    width: 175px;
+    width: 190px;
     text-align: center;
-    left: 337.5px;
+    left: 330px;
     bottom: 30px;
     font-size: 16px;
     font-weight: bold;
