@@ -39,3 +39,7 @@ renderMainWindow = () => {
         app.quit();
     });
 }
+
+ipcMain.on("action:main", (event, action) => {
+    action === "close" ? mainWindow.close() : mainWindow.minimize();
+})

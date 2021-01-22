@@ -58,7 +58,17 @@
 
     <canvas id="particles-bg"></canvas>
 
-    <div id="title-bar"></div>
+    <div id="title-bar">
+        <p class="title-bar-el" id="title-bar-title">sharingan</p>
+        <div class="title-bar-el" id="title-bar-btn-container">
+            <div class="title-bar-btn" id="title-bar-mini-btn" data-action="minimize">
+                <img class="title-bar-btn-img" id="title-bar-mini-btn-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/minimize.svg"/>
+            </div>
+            <div class="title-bar-btn" id="title-bar-close-btn" data-action="close">
+                <img class="title-bar-btn-img" id="title-bar-close-btn-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/close.svg"/>
+            </div>
+        </div>
+    </div>
 
     <div class="container" id="main-container">
         <div class="el" id="loader">

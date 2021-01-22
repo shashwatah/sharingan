@@ -1,3 +1,6 @@
+const electron = require("electron");
+const { ipcRenderer } = electron;
+
 require("@tensorflow/tfjs");
 require("@tensorflow/tfjs-backend-cpu");
 
@@ -5,6 +8,7 @@ const cocoSSD = require("@tensorflow-models/coco-ssd");
 
 let model;
 
+const titleBarBtns = Array.from(document.getElementsByClassName("title-bar-btn"));
 const loader = document.getElementById("loader");
 const choiceContainer = document.getElementById("input-choice-container");
 
@@ -17,7 +21,7 @@ window.onload = async () => {
         minDistance: 150
     });
 
-    model = await cocoSSD.load('lite_mobilenet_v2')
+    model = await cocoSSD.load('lite_mobilenet_v2');
     console.log("model loaded");
 
     loader.classList.add("hidden");
@@ -25,7 +29,11 @@ window.onload = async () => {
     choiceContainer.classList.add("flex-container");
 };
 
-
+titleBarBtns.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+        ipcRenderer.send("action:main", btn.getAttribute("data-action"));
+    });
+});
 // const btns = Array.from(document.getElementsByClassName("input-btn"));
         // const sourceInputContainers = Array.from(document.getElementsByClassName("source-input-container"));
         // const submitBtns = Array.from(document.getElementsByClassName("input-submit-btn"));

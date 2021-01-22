@@ -34,7 +34,7 @@ body {
 }
 
 #particles-bg {
-    position: fixed;
+    position: static;
     display: block;
     height: 100%;
     width: 100%;
@@ -50,7 +50,51 @@ body {
     height: 25px;
     width: 100%;
     z-index: 1;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.2); 
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
+#title-bar-title {
+    position: relative;
+    float: left;
+    font-family: Osake;
+    font-size: 16px;
+    margin: 6px 5px;
+    z-index: 2;
+}
+
+#title-bar-btn-container {
+    position: relative;
+    height: 25px;
+    width: 85px;
+    float: right;
+    display: flex;
+    flex-direction: row;
+    z-index: 2;
+}
+
+.title-bar-btn {
+    height: 25px;
+    width: 42.5px;
+    margin: 0px;
+    z-index: 5000;
+    -webkit-app-region: no-drag;
+}
+
+.title-bar-btn:hover {
+    background: rgba(0,0,0,0.4);
+}
+
+#title-bar-close-btn:hover {
+    background: rgba(255, 0, 0, 0.6)
+}
+
+.title-bar-btn-img {
+    position: relative;
+    height: 12.5px;
+    width: 12.5px;
+    margin: 6.25px 15px;
 }
 
 #main-container {
@@ -140,7 +184,7 @@ body {
     position: relative;
     height: 100px;
     width: 100px;
-    margin-top: 75px;
+    margin-top: 80px;
 }
 
 .input-choice-name {
