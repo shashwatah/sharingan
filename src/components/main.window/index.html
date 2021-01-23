@@ -56,47 +56,57 @@
         <button class="input-submit-btn" data-input="input-file-i">Submit</button>
     </div>     -->
 
-    <canvas id="particles-bg"></canvas>
+    <div id="main-container">
+        <canvas id="particles-bg"></canvas>
 
-    <div id="title-bar">
-        <p class="title-bar-el" id="title-bar-title">sharingan</p>
-        <div class="title-bar-el" id="title-bar-btn-container">
-            <div class="title-bar-btn" id="title-bar-mini-btn" data-action="minimize">
-                <img class="title-bar-btn-img" id="title-bar-mini-btn-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/minimize.svg"/>
+        <div id="title-bar">
+            <p class="title-bar-el" id="title-bar-title">sharingan</p>
+            <div class="title-bar-el" id="title-bar-btn-container">
+                <div class="title-bar-btn" id="title-bar-mini-btn" data-action="minimize">
+                    <img class="title-bar-btn-img" id="title-bar-mini-btn-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/minimize.svg"/>
+                </div>
+                <div class="title-bar-btn" id="title-bar-close-btn" data-action="close">
+                    <img class="title-bar-btn-img" id="title-bar-close-btn-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/close.svg"/>
+                </div>
             </div>
-            <div class="title-bar-btn" id="title-bar-close-btn" data-action="close">
-                <img class="title-bar-btn-img" id="title-bar-close-btn-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/close.svg"/>
+        </div>
+
+        <div class="container" id="view-container">
+            <div class="el" id="loader">
+                    <img class="loader-el" id="loader-img" type="image/png" draggable="false" src="./../../../assets/images/logos/sharingan.png"/>
+                    <p class="loader-el" id="loader-text">Loading Tensorflow model</p>
+
+                    <p class="loader-el" id="loader-footer">© Araekiel 2021 | MIT License</p>
             </div>
+
+            <div class="el hidden" id="input-choice-container">
+                <p id="input-choice-heading">Choose your input method</p>
+
+                <div class="input-choice" id="input-choice-w">
+                    <img class="input-choice-img" id="ic-w-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/webcam.svg"/>
+                    <p class="input-choice-name" id="ic-w-name">Webcam</p>
+                </div>    
+                <div class="input-choice" id="input-choice-v">
+                    <img class="input-choice-img" id="ic-v-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/video.svg"/>
+                    <p class="input-choice-name" id="ic-v-name">Video</p>
+                </div>
+                <div class="input-choice" id="input-choice-i">
+                    <img class="input-choice-img" id="ic-i-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/image.svg"/>
+                    <p class="input-choice-name" id="ic-i-name">Image</p>
+                </div>
+            </div>
+
+            <div class="el hidden" id="output-container">
+                <div class="output-container-el" id="output">
+                    <video class="output-el" id="output-video" autoplay></video>
+                    <img class="output-el" id="output-img" draggable="false" />
+                    <canvas class="output-el" id="output-canvas"></canvas>
+                </div>
+                <div class="output-container-el" id="output-stats-container"></div>
+            </div>
+
         </div>
     </div>
-
-    <div class="container" id="main-container">
-        <div class="el" id="loader">
-                <img class="loader-el" id="loader-img" type="image/png" draggable="false" src="./../../../assets/images/logos/sharingan.png"/>
-                <p class="loader-el" id="loader-text">Loading Tensorflow model</p>
-
-                <p class="loader-el" id="loader-footer">© Araekiel 2021 | MIT License</p>
-        </div>
-
-        <div class="el hidden" id="input-choice-container">
-            <p id="input-choice-heading">Choose your input method</p>
-
-            <div class="input-choice" id="input-choice-w">
-                <img class="input-choice-img" id="ic-w-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/webcam.svg"/>
-                <p class="input-choice-name" id="ic-w-name">Webcam</p>
-            </div>    
-            <div class="input-choice" id="input-choice-v">
-                <img class="input-choice-img" id="ic-v-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/video.svg"/>
-                <p class="input-choice-name" id="ic-v-name">Video</p>
-            </div>
-            <div class="input-choice" id="input-choice-i">
-                <img class="input-choice-img" id="ic-i-img" type="image/svg" draggable="false" src="./../../../assets/images/icons/image.svg"/>
-                <p class="input-choice-name" id="ic-i-name">Image</p>
-            </div>
-        </div>
-
-    </div>
-
 
     <script type="text/javascript" src="./../../utils/particles.min.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>

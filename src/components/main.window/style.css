@@ -33,6 +33,16 @@ body {
     flex-direction: row;
 }
 
+#main-container {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+    overflow: hidden;
+}
+
 #particles-bg {
     position: static;
     display: block;
@@ -40,7 +50,7 @@ body {
     width: 100%;
     top: 0px;
     left: 0px;
-    z-index: 0;
+    z-index: 1;
 }
 
 #title-bar {
@@ -49,7 +59,7 @@ body {
     left: 0px;
     height: 25px;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
     background: rgba(0,0,0,0.2); 
     -webkit-user-select: none;
     -webkit-app-region: drag;
@@ -61,7 +71,7 @@ body {
     font-family: Osake;
     font-size: 16px;
     margin: 6px 5px;
-    z-index: 2;
+    z-index: 3;
 }
 
 #title-bar-btn-container {
@@ -71,7 +81,7 @@ body {
     float: right;
     display: flex;
     flex-direction: row;
-    z-index: 2;
+    z-index: 3;
 }
 
 .title-bar-btn {
@@ -97,14 +107,14 @@ body {
     margin: 6.25px 15px;
 }
 
-#main-container {
+#view-container {
     position: fixed;
     display: block;
     height: 100%;
     width: 100%;
     top: 25px;
     left: 0px;
-    z-index: 1;
+    z-index: 2;
 }
 
 #loader {
@@ -192,15 +202,3 @@ body {
     font-size: 16px;
     font-weight: bold;
 }
-
-/* .input-choice:after {
-    content: '';
-    position: absolute;
-    width: 1100%; height: 1100%;
-    top: 20px; right: -500%;
-    background: rgba(255,255,255,.8);
-    transform-origin: 54% 0;
-    transform: rotate(45deg);
-    z-index: 1;
-  } */
-

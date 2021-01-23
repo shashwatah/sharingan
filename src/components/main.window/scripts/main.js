@@ -5,12 +5,16 @@ require("@tensorflow/tfjs");
 require("@tensorflow/tfjs-backend-cpu");
 
 const cocoSSD = require("@tensorflow-models/coco-ssd");
+const { input } = require("@tensorflow/tfjs");
 
 let model;
 
 const titleBarBtns = Array.from(document.getElementsByClassName("title-bar-btn"));
+const mainContainer = document.getElementById("main-container");
 const loader = document.getElementById("loader");
 const choiceContainer = document.getElementById("input-choice-container");
+const inputChoices = Array.from(document.getElementsByClassName("input-choice"));
+const inputModal = document.getElementById("input-modal");
 
 window.onload = async () => {
     Particles.init({
@@ -34,6 +38,42 @@ titleBarBtns.forEach((btn) => {
         ipcRenderer.send("action:main", btn.getAttribute("data-action"));
     });
 });
+
+inputChoices.forEach((inputChoice) => {
+    inputChoice.addEventListener("click", (event) => {
+        const inputChoiceID = inputChoice.getAttribute("id");
+        inputChoiceID === "input-choice-w" ?  predictWebcam() : toggleInputModal(inputChoiceID);
+    });
+});
+
+const toggleInputModal = (inputChoiceID) => {
+    mainContainer.style.filter = "blur(5px)";
+    ipcRenderer.send("render:modal", inputChoiceID);
+};
+
+const predictWebcam = () => {
+    console.log("webcam")
+    choiceContainer.style.display = "none";
+}
+
+const predictFile = () => {
+    choiceContainer.style.display = "none";
+}
+
+ipcRenderer.on("close:modal", (event) => {
+    mainContainer.style.filter = "none";
+});
+
+ipcRenderer.on("upload:modal", (event, filePath) => {
+    console.log(filePath);
+    mainContainer.style.filter = "none";
+    predictFile();
+});
+
+const toggleVisibility = (element) => {
+    element.classList.contains("hidden") ? element.classList.remove("hidden") : element.classList.add("hidden");
+};
+
 // const btns = Array.from(document.getElementsByClassName("input-btn"));
         // const sourceInputContainers = Array.from(document.getElementsByClassName("source-input-container"));
         // const submitBtns = Array.from(document.getElementsByClassName("input-submit-btn"));
