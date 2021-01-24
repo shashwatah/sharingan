@@ -1,3 +1,4 @@
+// Module Imports
 const electron = require("electron");
 const { ipcRenderer } = electron;
 
@@ -5,11 +6,15 @@ require("@tensorflow/tfjs");
 require("@tensorflow/tfjs-backend-cpu");
 
 const cocoSSD = require("@tensorflow-models/coco-ssd");
-const { input } = require("@tensorflow/tfjs");
+// Module Imports
 
+
+// Global Variables
 let model;
 let outputMedia, outputCanvas, videoStream;
+// Global Variables
 
+// DOM Elements
 const titleBarBtns = Array.from(document.getElementsByClassName("title-bar-btn"));
 const mainContainer = document.getElementById("main-container");
 const loader = document.getElementById("loader");
@@ -19,9 +24,11 @@ const outputContainer = document.getElementById("output-container");
 const output = document.getElementById("output");
 const outputStats = Array.from(document.getElementsByClassName("output-stat-number"));
 const outputCloseBtn = document.getElementById("output-close");
+// DOM Elements
 
 const animateObjects = [  "person", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe" ];
 
+// UI Controllers
 window.onload = async () => {
     Particles.init({
         selector: '#particles-bg',
@@ -57,43 +64,28 @@ const toggleInputModal = (inputChoiceID) => {
     ipcRenderer.send("render:modal", inputChoiceID);
 };
 
-const predictWebcam = () => {
-    choiceContainer.classList.remove("flex-container");
-    choiceContainer.classList.add("hidden");
-    toggleVisibility(outputContainer);
+outputCloseBtn.addEventListener("click", (event) => {
+    if(outputMedia.tagName === "VIDEO") {
+        console.log(videoStream);
+        const tracks = videoStream.getTracks();
+        console.log(tracks, "hello");
+        tracks.forEach(function(track) {
+            track.stop();
+        });
 
-    renderOutputMedia("video");
-
-    webcamInit();
-
-    outputMedia.onloadedmetadata = (event) => {
-        renderOutputCanvas("video");
-
-        detectFrame(outputMedia, "video", model);
-    };
-}
-
-const predictFile = (fileData) => {
-    choiceContainer.classList.remove("flex-container");
-    choiceContainer.classList.add("hidden");
-    toggleVisibility(outputContainer);
-
-    renderOutputMedia(fileData.mediaType);
-    
-    if(fileData.mediaType === "image") {
-        outputMedia.onload = () => {
-            renderOutputCanvas("image");
-            detectFrame(outputMedia, "image", model);
-        }
-        outputMedia.src = fileData.filePath;
-    } else {
-        outputMedia.src = fileData.filePath;
-        outputMedia.onloadeddata = (event) => {
-            renderOutputCanvas("video");
-            detectFrame(outputMedia, "video", model);
-        };
+        outputMedia.srcObject = null;
     }
-}
+
+    output.removeChild(outputMedia);
+    output.removeChild(outputCanvas);
+
+    outputMedia = null;
+    outputCanvas = null;
+
+    toggleVisibility(outputContainer);
+    choiceContainer.classList.remove("hidden");
+    choiceContainer.classList.add("flex-container");
+});
 
 const renderOutputMedia = (mediaType) => {
     if(mediaType === "video") {
@@ -125,20 +117,53 @@ const renderOutputCanvas = (mediaType) => {
     output.appendChild(outputCanvas);
 }
 
-ipcRenderer.on("close:modal", (event) => {
-    mainContainer.style.filter = "none";
-});
-
-ipcRenderer.on("upload:modal", (event, fileData) => {
-    console.log(fileData);
-    mainContainer.style.filter = "none";
-    predictFile(fileData);
-});
 
 const toggleVisibility = (element) => {
     element.classList.contains("hidden") ? element.classList.remove("hidden") : element.classList.add("hidden");
 };
+// UI Controllers
 
+// Prediction Controllers
+const predictWebcam = () => {
+    choiceContainer.classList.remove("flex-container");
+    choiceContainer.classList.add("hidden");
+    toggleVisibility(outputContainer);
+
+    renderOutputMedia("video");
+
+    webcamInit();
+
+    outputMedia.onloadedmetadata = (event) => {
+        renderOutputCanvas("video");
+
+        detectFrame(outputMedia, "video", model);
+    };
+};
+
+const predictFile = (fileData) => {
+    choiceContainer.classList.remove("flex-container");
+    choiceContainer.classList.add("hidden");
+    toggleVisibility(outputContainer);
+
+    renderOutputMedia(fileData.mediaType);
+    
+    if(fileData.mediaType === "image") {
+        outputMedia.onload = () => {
+            renderOutputCanvas("image");
+            detectFrame(outputMedia, "image", model);
+        }
+        outputMedia.src = fileData.filePath;
+    } else {
+        outputMedia.src = fileData.filePath;
+        outputMedia.onloadeddata = (event) => {
+            renderOutputCanvas("video");
+            detectFrame(outputMedia, "video", model);
+        };
+    }
+};
+// Prediction Controllers
+
+// Util Functions
 const webcamInit = async () => {
     errorCallback = (e) => {
         console.log('Error', e);
@@ -149,7 +174,9 @@ const webcamInit = async () => {
         outputMedia.srcObject = videoStream;
     }, errorCallback);
 }
+// Util Functions
 
+// Object Detection 
 const detectFrame = (media, mediaType, model) => {
     model.detect(media).then(predictions => {
         renderPredictions(predictions);
@@ -210,26 +237,16 @@ const renderPredictions = (predictions) => {
         });
     }
 }; 
+// Object Detection 
 
-outputCloseBtn.addEventListener("click", (event) => {
-    if(outputMedia.tagName === "VIDEO") {
-        console.log(videoStream);
-        const tracks = videoStream.getTracks();
-        console.log(tracks, "hello");
-        tracks.forEach(function(track) {
-            track.stop();
-        });
-
-        outputMedia.srcObject = null;
-    }
-
-    output.removeChild(outputMedia);
-    output.removeChild(outputCanvas);
-
-    outputMedia = null;
-    outputCanvas = null;
-
-    toggleVisibility(outputContainer);
-    choiceContainer.classList.remove("hidden");
-    choiceContainer.classList.add("flex-container");
+// Electron ipcRenderer
+ipcRenderer.on("close:modal", (event) => {
+    mainContainer.style.filter = "none";
 });
+
+ipcRenderer.on("upload:modal", (event, fileData) => {
+    console.log(fileData);
+    mainContainer.style.filter = "none";
+    predictFile(fileData);
+});
+// Electron ipcRenderer
