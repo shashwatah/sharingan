@@ -8,7 +8,7 @@ const cocoSSD = require("@tensorflow-models/coco-ssd");
 const { input } = require("@tensorflow/tfjs");
 
 let model;
-let outputMedia, outputCanvas, videoStream, image;
+let outputMedia, outputCanvas, videoStream;
 
 const titleBarBtns = Array.from(document.getElementsByClassName("title-bar-btn"));
 const mainContainer = document.getElementById("main-container");
@@ -18,6 +18,7 @@ const inputChoices = Array.from(document.getElementsByClassName("input-choice"))
 const outputContainer = document.getElementById("output-container");
 const output = document.getElementById("output");
 const outputStats = Array.from(document.getElementsByClassName("output-stat-number"));
+const outputCloseBtn = document.getElementById("output-close");
 
 const animateObjects = [  "person", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe" ];
 
@@ -57,7 +58,8 @@ const toggleInputModal = (inputChoiceID) => {
 };
 
 const predictWebcam = () => {
-    choiceContainer.style.display = "none";
+    choiceContainer.classList.remove("flex-container");
+    choiceContainer.classList.add("hidden");
     toggleVisibility(outputContainer);
 
     renderOutputMedia("video");
@@ -72,8 +74,8 @@ const predictWebcam = () => {
 }
 
 const predictFile = (fileData) => {
-    console.log("you got here!")
-    choiceContainer.style.display = "none";
+    choiceContainer.classList.remove("flex-container");
+    choiceContainer.classList.add("hidden");
     toggleVisibility(outputContainer);
 
     renderOutputMedia(fileData.mediaType);
@@ -153,7 +155,9 @@ const detectFrame = (media, mediaType, model) => {
         renderPredictions(predictions);
         if(mediaType === "video") {
             requestAnimationFrame(() => {
-                detectFrame(media, mediaType, model);
+                if(media !== null) {
+                    detectFrame(media, mediaType, model);
+                }
             });
         }
     });
@@ -161,47 +165,71 @@ const detectFrame = (media, mediaType, model) => {
 
 
 const renderPredictions = (predictions) => {
-    let objectCounter = 0, animateCounter = 0;
-    const ctx = outputCanvas.getContext("2d");
+    if(outputCanvas !== null) {
+        let objectCounter = 0, animateCounter = 0;
+        const ctx = outputCanvas.getContext("2d");
 
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    const font = "16px sans-serif";
-    ctx.font = font;
-    ctx.textBaseline = "top";
+        const font = "16px sans-serif";
+        ctx.font = font;
+        ctx.textBaseline = "top";
 
-    predictions.forEach(prediction => {
-        objectCounter++;
-        animateCounter += animateObjects.indexOf(prediction.class) >= 0 ? 1 : 0;
+        predictions.forEach(prediction => {
+            objectCounter++;
+            animateCounter += animateObjects.indexOf(prediction.class) >= 0 ? 1 : 0;
 
-        const x = prediction.bbox[0];
-        const y = prediction.bbox[1];
-        const width = prediction.bbox[2];
-        const height = prediction.bbox[3];
-        ctx.fillStyle = "#000000";
-        ctx.globalAlpha = 0.4;
-        ctx.fillRect(x, y, width, height);
-        const textWidth = ctx.measureText(prediction.class).width;
-        const textHeight = parseInt(font, 10); // base 10
-        ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-    });
+            const x = prediction.bbox[0];
+            const y = prediction.bbox[1];
+            const width = prediction.bbox[2];
+            const height = prediction.bbox[3];
+            ctx.fillStyle = "#000000";
+            ctx.globalAlpha = 0.4;
+            ctx.fillRect(x, y, width, height);
+            const textWidth = ctx.measureText(prediction.class).width;
+            const textHeight = parseInt(font, 10); // base 10
+            ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
+        });
 
-    predictions.forEach(prediction => {
-        const x = prediction.bbox[0];
-        const y = prediction.bbox[1];
-        ctx.globalAlpha = 1.0;
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillText(prediction.class, x, y);
-    });
+        predictions.forEach(prediction => {
+            const x = prediction.bbox[0];
+            const y = prediction.bbox[1];
+            ctx.globalAlpha = 1.0;
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillText(prediction.class, x, y);
+        });
 
-    outputStats.forEach((stat) => {
-        if(stat.getAttribute("data-category") === "objects") {
-            stat.innerHTML = `${objectCounter}`;
-        } else if(stat.getAttribute("data-category") === "animate") {
-            stat.innerHTML = `${animateCounter}`;
-        } else {
-            stat.innerHTML = `${objectCounter - animateCounter}`;
-        }
-    });
-
+        outputStats.forEach((stat) => {
+            if(stat.getAttribute("data-category") === "objects") {
+                stat.innerHTML = `${objectCounter}`;
+            } else if(stat.getAttribute("data-category") === "animate") {
+                stat.innerHTML = `${animateCounter}`;
+            } else {
+                stat.innerHTML = `${objectCounter - animateCounter}`;
+            }
+        });
+    }
 }; 
+
+outputCloseBtn.addEventListener("click", (event) => {
+    if(outputMedia.tagName === "VIDEO") {
+        console.log(videoStream);
+        const tracks = videoStream.getTracks();
+        console.log(tracks, "hello");
+        tracks.forEach(function(track) {
+            track.stop();
+        });
+
+        outputMedia.srcObject = null;
+    }
+
+    output.removeChild(outputMedia);
+    output.removeChild(outputCanvas);
+
+    outputMedia = null;
+    outputCanvas = null;
+
+    toggleVisibility(outputContainer);
+    choiceContainer.classList.remove("hidden");
+    choiceContainer.classList.add("flex-container");
+});

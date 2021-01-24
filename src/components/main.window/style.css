@@ -214,11 +214,23 @@ body {
 #output-close {
     position: fixed;
     left: 25px;
-    top: 65px;
-    height: 25px;
-    width: 25px;
+    top: 62px;
+    height: 40px;
+    width: 55px;
     background: rgba(0,0,0,0.2);
-    clip-path: polygon(0 0, 100% 0, 0 100%)
+    clip-path: polygon(0 0, 97% 0%, 0 100%);
+    cursor: pointer;
+}
+
+#output-close:hover {
+    background: rgba(0,0,0,0.4);
+}
+
+#output-close-img { 
+    position: relative;
+    height: 10px;
+    width: 10px;
+    margin: 8px 10px;
 }
 
 #output {
@@ -269,7 +281,7 @@ body {
     position: relative;
     display: inline-block;
     height: 140px;
-    width: 175px;
+    width: 180px;
     margin-top: 14px;
     background: rgba(0,0,0,0.2);
     clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 0);
