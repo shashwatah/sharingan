@@ -28,7 +28,6 @@ A Real-Time object detection app. Built with <a href="https://www.electronjs.org
 </p>
 
 <img alt="Screenshot 1" src="https://raw.githubusercontent.com/Araekiel/sharingan/master/assets/images/screenshots/2.JPG">
-<br/>
 <img alt="Screenshot 2" src="https://raw.githubusercontent.com/Araekiel/sharingan/master/assets/images/screenshots/3.JPG">
 
 ## Prerequisites
