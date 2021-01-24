@@ -1,169 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        html {
-            height: 100%;
-            width: 100%;
-            background: rgba(255,255,255,0.8);
-            color: black;
-            font-family: Lato, "Lato", sans-serif;
-            clip-path: polygon(0 0, 90% 0, 100% 20%, 100% 100%, 10% 100%, 0 80%, 0 0);
-        }   
-
-        body {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        * {
-            user-select: none;
-        }
-
-        *:focus {
-            outline: none;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-
-        #drag-drop-container {
-            position: relative;
-            height: 150px;
-            width: 425px;
-            margin: 12.5px;
-            margin-top: -2.5px;
-            background: rgba(0,0,0,0.3);
-            clip-path: polygon(0 0, 91% 0, 100% 28%, 100% 100%, 0 100%, 0 0, 0 0);
-            text-align: center;
-        }
-
-        #drag-drop-text {
-            position: relative;
-            height: 10px;
-            width: auto;
-            padding-top: 70px;  
-            font-size: 17px;
-            font-weight: bold;
-        }
-
-        #btn-container {
-            position: fixed;
-            height: 45px;
-            width: 225px;
-            bottom: 12.5px;
-            right: 12.5px;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .btn {
-            position: relative;
-            height: 100%;
-            width: 500%;
-            border: 0px;
-            background: rgba(0,0,0,0.3);
-            font-family: Lato, "Lato", sans-serif;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #cancel-btn {
-            background: none;
-        }
-
-        #upload-btn {
-            clip-path: polygon(0 0, 100% 0, 100% 0%, 100% 100%, 0 100%, 10% 100%, 0 75%, 0 0);
-        }
-
-        #upload-btn[disabled] {
-            color: grey;
-        }
-
-        #upload-btn[disabled]:hover {
-            background: rgba(0,0,0,0.3);
-            cursor: default;
-            color: grey;
-        }
-
-        #upload-btn:hover {
-            background: rgba(0,0,0,0.6);
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-        <div class="modal-el" id="drag-drop-container">
-            <p id="drag-drop-text">Drag your image here</p>
-        </div>
+    <div class="modal-el" id="drag-drop-container">
+        <p id="drag-drop-text">Drag your image here</p>
+    </div>
 
-        <div class="modal-el" id="btn-container"> 
-            <button class="btn" id="cancel-btn">Cancel</button>
-            <button class="btn" id="upload-btn" disabled>Upload</button>
-        </div>
+    <div class="modal-el" id="btn-container"> 
+        <button class="btn" id="cancel-btn">Cancel</button>
+        <button class="btn" id="upload-btn" disabled>Upload</button>
+    </div>
 
-    <script type="text/javascript">
-        const electron = require("electron");
-        const { ipcRenderer } = electron;
-
-        const dragDropContainer = document.getElementById('drag-drop-container');
-        const dragDropText = document.getElementById('drag-drop-text');
-        const cancelBtn = document.getElementById("cancel-btn");
-        const uploadBtn = document.getElementById("upload-btn");
-
-        let fileTypes, filePath; 
-        
-        ipcRenderer.on("data:inputChoiceID", (event, inputChoiceID) => {
-            console.log(inputChoiceID)
-            if(inputChoiceID === "input-choice-i") { 
-                fileTypes = ["image/png", "image/jpeg"];
-                dragDropText.innerText = "Drag your Image here";
-            } else {
-                fileTypes = ["video/avi", "video/mp4"];
-                dragDropText.innerText = "Drag your Video here";
-            }
-
-            initDragDrop();
-        });
-
-        const initDragDrop = () => {
-            dragDropContainer.ondragover = () => {
-                dragDropContainer.style.background = "rgba(0,0,0,0.6)";
-                return false;
-            };
-
-            dragDropContainer.ondragleave = () => {
-                dragDropContainer.style.background = " rgba(0,0,0,0.3)";
-                return false;
-            };
-
-            dragDropContainer.ondragend = () => {
-                return false;
-            };
-
-            dragDropContainer.ondrop = (event) => {
-                event.preventDefault();
-
-                filePath = event.dataTransfer.files[0].path;
-                const fileType = event.dataTransfer.files[0].type;
-
-                const splitPath = filePath.replace(/^.*[\\\/]/, '').split("/");
-                dragDropText.innerText = splitPath[splitPath.length - 1];
-                dragDropText.style.color = "white";
-                
-                uploadBtn.disabled = fileTypes.indexOf(fileType) >= 0 ? false : true;
-
-                return false;
-            };
-
-            cancelBtn.addEventListener("click", (event) => {
-                ipcRenderer.send("close:modal");
-            });
-
-            uploadBtn.addEventListener("click", (event) => {
-                ipcRenderer.send("upload:modal", filePath);
-            });
-        }
-        
-    </script>
+    <script type="text/javascript" src="script.js"></script>
 </body>
 </html>

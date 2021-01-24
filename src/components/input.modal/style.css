@@ -1,0 +1,87 @@
+html {
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,0.8);
+    color: black;
+    font-family: Lato, "Lato", sans-serif;
+    clip-path: polygon(0 0, 90% 0, 100% 20%, 100% 100%, 10% 100%, 0 80%, 0 0);
+}   
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+* {
+    user-select: none;
+}
+
+*:focus {
+    outline: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+#drag-drop-container {
+    position: relative;
+    height: 150px;
+    width: 425px;
+    margin: 12.5px;
+    margin-top: -2.5px;
+    background: rgba(0,0,0,0.3);
+    clip-path: polygon(0 0, 91% 0, 100% 28%, 100% 100%, 0 100%, 0 0, 0 0);
+    text-align: center;
+}
+
+#drag-drop-text {
+    position: relative;
+    height: 10px;
+    width: auto;
+    padding-top: 70px;  
+    font-size: 17px;
+    font-weight: bold;
+}
+
+#btn-container {
+    position: fixed;
+    height: 45px;
+    width: 225px;
+    bottom: 12.5px;
+    right: 12.5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.btn {
+    position: relative;
+    height: 100%;
+    width: 500%;
+    border: 0px;
+    background: rgba(0,0,0,0.3);
+    font-family: Lato, "Lato", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#cancel-btn {
+    background: none;
+}
+
+#upload-btn {
+    clip-path: polygon(0 0, 100% 0, 100% 0%, 100% 100%, 0 100%, 10% 100%, 0 75%, 0 0);
+}
+
+#upload-btn[disabled] {
+    color: grey;
+}
+
+#upload-btn[disabled]:hover {
+    background: rgba(0,0,0,0.3);
+    cursor: default;
+    color: grey;
+}
+
+#upload-btn:hover {
+    background: rgba(0,0,0,0.6);
+    color: white;
+}
