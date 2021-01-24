@@ -17,6 +17,9 @@ const choiceContainer = document.getElementById("input-choice-container");
 const inputChoices = Array.from(document.getElementsByClassName("input-choice"));
 const outputContainer = document.getElementById("output-container");
 const output = document.getElementById("output");
+const outputStats = Array.from(document.getElementsByClassName("output-stat-number"));
+
+const animateObjects = [  "person", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe" ];
 
 window.onload = async () => {
     Particles.init({
@@ -158,16 +161,19 @@ const detectFrame = (media, mediaType, model) => {
 
 
 const renderPredictions = (predictions) => {
+    let objectCounter = 0, animateCounter = 0;
     const ctx = outputCanvas.getContext("2d");
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    // Font options.
+
     const font = "16px sans-serif";
     ctx.font = font;
     ctx.textBaseline = "top";
-    // ctx.drawImage(outputMedia,0,0);
 
     predictions.forEach(prediction => {
+        objectCounter++;
+        animateCounter += animateObjects.indexOf(prediction.class) >= 0 ? 1 : 0;
+
         const x = prediction.bbox[0];
         const y = prediction.bbox[1];
         const width = prediction.bbox[2];
@@ -187,49 +193,15 @@ const renderPredictions = (predictions) => {
         ctx.fillStyle = "#FFFFFF";
         ctx.fillText(prediction.class, x, y);
     });
-};
 
+    outputStats.forEach((stat) => {
+        if(stat.getAttribute("data-category") === "objects") {
+            stat.innerHTML = `${objectCounter}`;
+        } else if(stat.getAttribute("data-category") === "animate") {
+            stat.innerHTML = `${animateCounter}`;
+        } else {
+            stat.innerHTML = `${objectCounter - animateCounter}`;
+        }
+    });
 
-
-
-// const btns = Array.from(document.getElementsByClassName("input-btn"));
-        // const sourceInputContainers = Array.from(document.getElementsByClassName("source-input-container"));
-        // const submitBtns = Array.from(document.getElementsByClassName("input-submit-btn"));
-        // const video = document.getElementById("input-rt-video");
-        // let videoStream;
-
-        // btns.forEach((btn) => {
-        //     btn.addEventListener("click", (event) => {
-        //         sourceInputContainers.forEach((container) => {
-        //             console.log(container.getAttribute("data-btn"), btn.getAttribute("id"))
-        //             container.getAttribute("data-btn") === btn.getAttribute("id") ? container.classList.remove("hidden") : container.classList.add("hidden");
-        //         });
- 
-        //         if(btn.getAttribute("id") === "rt-btn") {
-        //             webcamInit();
-        //         } else {
-        //             videoStream.getTracks().forEach(function(track) {
-        //                 track.stop();
-        //             });
-        //         }
-        //     });
-        // });
-
-        // submitBtns.forEach((submitBtn) => {
-        //     submitBtn.addEventListener("click", (event) => {
-        //         console.log(document.getElementById(submitBtn.getAttribute("data-input")).files[0].path);
-        //     });
-        // });
-        
-
-        // predictWithCocoModel = async () => {
-        
-        //     detectFrame(video, model);
-        // }
-
-        
-
-        
-
-        
-        // webcamInit();
+}; 

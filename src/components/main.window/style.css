@@ -211,6 +211,16 @@ body {
     margin-top: 37.5px;
 }
 
+#output-close {
+    position: fixed;
+    left: 25px;
+    top: 65px;
+    height: 25px;
+    width: 25px;
+    background: rgba(0,0,0,0.2);
+    clip-path: polygon(0 0, 100% 0, 0 100%)
+}
+
 #output {
     position: relative;
     float: left;
@@ -220,7 +230,7 @@ body {
     background: blue;
     white-space: nowrap;
     text-align: center;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.2);
     clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
 }
 
@@ -252,4 +262,36 @@ body {
     height: 100%;
     width: 200px;
     float: right;
+    text-align: right;
+}
+
+.output-stat {
+    position: relative;
+    display: inline-block;
+    height: 140px;
+    width: 175px;
+    margin-top: 14px;
+    background: rgba(0,0,0,0.2);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 0);
+    text-align: center;
+}   
+
+#output-stat-objects {
+    margin-top: 0px;
+}
+
+.output-stat-number {
+    font-size: 50px;
+    font-weight: bold;
+    color: black;
+    margin: 0px;
+    margin-top: 30px;
+}
+
+.output-stat-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    margin: 0px;
+    margin-top: 5px;
 }
