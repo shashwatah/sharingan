@@ -7,8 +7,8 @@
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/images/pkg/mac/icon.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/images/pkg/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",    
-    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/images/pkg/png/icon.png --prune=true --out=release-builds"
+    "package-win": "electron-packager . Sharingan --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/images/pkg/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",    
+    "package-linux": "electron-packager . Sharingan --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/images/pkg/png/icon.png --prune=true --out=release-builds"
   },
   "repository": {
     "type": "git",
@@ -23,10 +23,10 @@
   "dependencies": {
     "@tensorflow-models/coco-ssd": "^2.2.1",
     "@tensorflow/tfjs": "^2.8.5",
-    "@tensorflow/tfjs-backend-cpu": "^2.8.5",
-    "electron": "^11.2.0"
+    "@tensorflow/tfjs-backend-cpu": "^2.8.5"
   },
   "devDependencies": {
-    "electron-packager": "^15.2.0"
+    "electron-packager": "^15.2.0",
+    "electron": "^11.2.0"
   }
 }
