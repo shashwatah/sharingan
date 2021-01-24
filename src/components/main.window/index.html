@@ -1,61 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        /*
-        .input-btn {
-            display: inline-block;
-        }
-
-        .source-input-container {
-            margin-top: 25px;
-        } */
-
-        /* p {
-            position: fixed;
-            display: contents;
-            top: 0px;
-            left: 0px;
-        }
-
-        video {
-            height: 600px;
-            width: 600px;
-            display: none;
-        }
-
-        canvas {
-            height: 600px;
-            width: 600px;
-            position: fixed;
-            top: 0px;
-            left: 0px;
-        } */
-    </style>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>    
-    <!-- <button class="input-btn" id="rt-btn" type="button" value="real-time">real-time</button>
-    <button class="input-btn" id="v-btn" type="button" value="video">video</button>
-    <button class="input-btn" id="i-btn" type="button" value="image">image</button>
-
-    <div class="source-input-container hidden" id="source-input-rt" data-btn="rt-btn">
-        <video class="source-input" id="input-rt-video" autoplay></video>
-        <canvas class="source-input" id="input-rt-canvas"></canvas>
-    </div>
-
-    <div class="source-input-container hidden" id="source-input-v" data-btn="v-btn">
-        <label for="input-file-v">Choose Video</label>
-        <input class="source-input" id="input-file-v" type="file" accept="video/avi, video/mp4"/>
-        <button class="input-submit-btn" data-input="input-file-v">Submit</button>
-    </div>
-     
-    <div class="source-input-container hidden" id="source-input-i" data-btn="i-btn">
-        <label for="input-file-i">Choose Image</label>
-        <input class="source-input" id="input-file-i" type="file" accept="image/png, image/jpeg"/> 
-        <button class="input-submit-btn" data-input="input-file-i">Submit</button>
-    </div>     -->
-
     <div id="main-container">
         <canvas id="particles-bg"></canvas>
 
@@ -98,9 +46,7 @@
 
             <div class="el hidden" id="output-container">
                 <div class="output-container-el" id="output">
-                    <video class="output-el" id="output-video" autoplay></video>
-                    <img class="output-el" id="output-img" draggable="false" />
-                    <canvas class="output-el" id="output-canvas"></canvas>
+                    <span class="helper"></span>
                 </div>
                 <div class="output-container-el" id="output-stats-container"></div>
             </div>

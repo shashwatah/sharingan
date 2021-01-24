@@ -6,14 +6,16 @@ const dragDropText = document.getElementById('drag-drop-text');
 const cancelBtn = document.getElementById("cancel-btn");
 const uploadBtn = document.getElementById("upload-btn");
 
-let fileTypes, filePath; 
+let fileTypes, mediaType, filePath; 
 
 ipcRenderer.on("data:inputChoiceID", (event, inputChoiceID) => {
     console.log(inputChoiceID)
     if(inputChoiceID === "input-choice-i") { 
+        mediaType = "image";
         fileTypes = ["image/png", "image/jpeg"];
         dragDropText.innerText = "Drag your Image here";
     } else {
+        mediaType = "video";
         fileTypes = ["video/avi", "video/mp4"];
         dragDropText.innerText = "Drag your Video here";
     }
@@ -56,6 +58,6 @@ const initDragDrop = () => {
     });
 
     uploadBtn.addEventListener("click", (event) => {
-        ipcRenderer.send("upload:modal", filePath);
+        ipcRenderer.send("upload:modal", { mediaType, filePath });
     });
 }

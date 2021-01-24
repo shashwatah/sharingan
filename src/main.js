@@ -90,8 +90,7 @@ ipcMain.on("close:modal", (event) => {
     mainWindow.webContents.send('close:modal');
 });
 
-ipcMain.on("upload:modal", (event, filePath) => {
+ipcMain.on("upload:modal", (event, fileData) => {
     inputModal.close();
-    console.log(filePath)
-    mainWindow.webContents.send('upload:modal', filePath);
+    mainWindow.webContents.send('upload:modal', fileData);
 });
