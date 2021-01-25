@@ -11,7 +11,7 @@ const cocoSSD = require("@tensorflow-models/coco-ssd");
 
 // Global Variables
 let model;
-let outputMedia, outputCanvas, videoStream;
+let outputMedia, outputCanvas, videoStream, videoLoop;
 // Global Variables
 
 // DOM Elements
@@ -65,22 +65,20 @@ const toggleInputModal = (inputChoiceID) => {
 };
 
 outputCloseBtn.addEventListener("click", (event) => {
-    if(outputMedia.tagName === "VIDEO" && videoStream !== undefined) {
-        console.log(videoStream);
-        const tracks = videoStream.getTracks();
-        console.log(tracks, "hello");
-        tracks.forEach(function(track) {
-            track.stop();
-        });
-
-        outputMedia.srcObject = null;
-    }
-
     output.removeChild(outputMedia);
     output.removeChild(outputCanvas);
 
     outputMedia = null;
     outputCanvas = null;
+
+    videoLoop = videoLoop ? false : false;
+
+    if(videoStream !== undefined) {
+        const tracks = videoStream.getTracks();
+        tracks.forEach(function(track) {
+            track.stop();
+        });
+    }
 
     toggleVisibility(outputContainer);
     choiceContainer.classList.remove("hidden");
@@ -96,7 +94,7 @@ const renderOutputMedia = (mediaType) => {
     } else {
         outputMedia = document.createElement("img");
         outputMedia.classList.add("output-el");
-        outputMedia.setAttribute("id", "output-video");
+        outputMedia.setAttribute("id", "output-image");
         outputMedia.draggable = false;
     }
 
@@ -108,9 +106,7 @@ const renderOutputCanvas = (mediaType) => {
     outputCanvas.classList.add("output-el");
     outputCanvas.setAttribute("id", "output-canvas");
     
-    console.log(outputMedia.clientHeight, outputMedia.clientWidth);
     let mediaHeight = outputMedia.clientHeight;
-
 
     let disparity = mediaType === "video" ? 10 : 12;
     outputCanvas.style.top = `${((450 - mediaHeight)/2)+50+disparity}px`;
@@ -154,11 +150,10 @@ const predictFile = (fileData) => {
     if(fileData.mediaType === "image") {
         outputMedia.onload = () => {
             renderOutputCanvas("image");
-            detectFrame(outputMedia, "image", {scale: false}, model);
+            detectFrame(outputMedia, "image", {scale:false}, model);
         }
         outputMedia.src = fileData.filePath;
     } else {
-        outputMedia.src = fileData.filePath;
         outputMedia.onloadeddata = (event) => {
             renderOutputCanvas("video");
             const scaleData = {
@@ -168,6 +163,8 @@ const predictFile = (fileData) => {
             };
             detectFrame(outputMedia, "video", scaleData, model);
         };
+        videoLoop = true;
+        outputMedia.src = fileData.filePath;
     }
 };
 // Prediction Controllers
@@ -181,6 +178,7 @@ const webcamInit = async () => {
     navigator.getUserMedia({video: true, audio: false}, (localMediaStream) => {
         videoStream = localMediaStream;
         outputMedia.srcObject = videoStream;
+        videoLoop = true;
     }, errorCallback);
 }
 // Util Functions
@@ -189,7 +187,7 @@ const webcamInit = async () => {
 const detectFrame = (media, mediaType, scaleData, model) => {
     model.detect(media).then(predictions => {
         renderPredictions(predictions, scaleData);
-        if(mediaType === "video") {
+        if(mediaType === "video" && videoLoop && outputMedia !== null) {
             requestAnimationFrame(() => {
                 if(media !== null) {
                     detectFrame(media, mediaType, scaleData, model);
@@ -201,11 +199,9 @@ const detectFrame = (media, mediaType, scaleData, model) => {
 
 
 const renderPredictions = (predictions, scaleData) => {
-    if(outputCanvas !== null) {
+    if(outputCanvas !== null && outputMedia !== null) {
         let objectCounter = 0, animateCounter = 0;
         const ctx = outputCanvas.getContext("2d");
-
-        console.log(ctx.canvas.width, ctx.canvas.height);
 
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -241,7 +237,7 @@ const renderPredictions = (predictions, scaleData) => {
 
         predictions.forEach(prediction => {
             let x, y;
-            
+
             if(scaleData.scale) {
                 x = prediction.bbox[0]/scaleData.xScale;
                 y = prediction.bbox[1]/scaleData.yScale;
@@ -274,7 +270,6 @@ ipcRenderer.on("close:modal", (event) => {
 });
 
 ipcRenderer.on("upload:modal", (event, fileData) => {
-    console.log(fileData);
     mainContainer.style.filter = "none";
     predictFile(fileData);
 });
