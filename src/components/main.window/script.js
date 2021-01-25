@@ -65,7 +65,7 @@ const toggleInputModal = (inputChoiceID) => {
 };
 
 outputCloseBtn.addEventListener("click", (event) => {
-    if(outputMedia.tagName === "VIDEO") {
+    if(outputMedia.tagName === "VIDEO" && videoStream !== undefined) {
         console.log(videoStream);
         const tracks = videoStream.getTracks();
         console.log(tracks, "hello");
@@ -107,7 +107,11 @@ const renderOutputCanvas = (mediaType) => {
     outputCanvas = document.createElement("canvas");
     outputCanvas.classList.add("output-el");
     outputCanvas.setAttribute("id", "output-canvas");
-    let mediaHeight = mediaType === "video" ? outputMedia.videoHeight : outputMedia.clientHeight;
+    
+    console.log(outputMedia.clientHeight, outputMedia.clientWidth);
+    let mediaHeight = outputMedia.clientHeight;
+
+
     let disparity = mediaType === "video" ? 10 : 12;
     outputCanvas.style.top = `${((450 - mediaHeight)/2)+50+disparity}px`;
 
@@ -136,7 +140,7 @@ const predictWebcam = () => {
     outputMedia.onloadedmetadata = (event) => {
         renderOutputCanvas("video");
 
-        detectFrame(outputMedia, "video", model);
+        detectFrame(outputMedia, "video", {scale:false}, model);
     };
 };
 
@@ -150,14 +154,19 @@ const predictFile = (fileData) => {
     if(fileData.mediaType === "image") {
         outputMedia.onload = () => {
             renderOutputCanvas("image");
-            detectFrame(outputMedia, "image", model);
+            detectFrame(outputMedia, "image", {scale: false}, model);
         }
         outputMedia.src = fileData.filePath;
     } else {
         outputMedia.src = fileData.filePath;
         outputMedia.onloadeddata = (event) => {
             renderOutputCanvas("video");
-            detectFrame(outputMedia, "video", model);
+            const scaleData = {
+                scale: true,
+                xScale: outputMedia.videoHeight/outputMedia.clientHeight,
+                yScale: outputMedia.videoWidth/outputMedia.clientWidth,
+            };
+            detectFrame(outputMedia, "video", scaleData, model);
         };
     }
 };
@@ -177,13 +186,13 @@ const webcamInit = async () => {
 // Util Functions
 
 // Object Detection 
-const detectFrame = (media, mediaType, model) => {
+const detectFrame = (media, mediaType, scaleData, model) => {
     model.detect(media).then(predictions => {
-        renderPredictions(predictions);
+        renderPredictions(predictions, scaleData);
         if(mediaType === "video") {
             requestAnimationFrame(() => {
                 if(media !== null) {
-                    detectFrame(media, mediaType, model);
+                    detectFrame(media, mediaType, scaleData, model);
                 }
             });
         }
@@ -191,10 +200,12 @@ const detectFrame = (media, mediaType, model) => {
 }
 
 
-const renderPredictions = (predictions) => {
+const renderPredictions = (predictions, scaleData) => {
     if(outputCanvas !== null) {
         let objectCounter = 0, animateCounter = 0;
         const ctx = outputCanvas.getContext("2d");
+
+        console.log(ctx.canvas.width, ctx.canvas.height);
 
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -206,10 +217,20 @@ const renderPredictions = (predictions) => {
             objectCounter++;
             animateCounter += animateObjects.indexOf(prediction.class) >= 0 ? 1 : 0;
 
-            const x = prediction.bbox[0];
-            const y = prediction.bbox[1];
-            const width = prediction.bbox[2];
-            const height = prediction.bbox[3];
+            let x, y, width, height;
+
+            if(scaleData.scale) {
+                x = prediction.bbox[0]/scaleData.xScale;
+                y = prediction.bbox[1]/scaleData.yScale;
+                width = prediction.bbox[2]/scaleData.yScale;
+                height = prediction.bbox[3]/scaleData.xScale;
+            } else {
+                x = prediction.bbox[0];
+                y = prediction.bbox[1];
+                width = prediction.bbox[2];
+                height = prediction.bbox[3];
+            }
+            
             ctx.fillStyle = "#000000";
             ctx.globalAlpha = 0.4;
             ctx.fillRect(x, y, width, height);
@@ -219,8 +240,16 @@ const renderPredictions = (predictions) => {
         });
 
         predictions.forEach(prediction => {
-            const x = prediction.bbox[0];
-            const y = prediction.bbox[1];
+            let x, y;
+            
+            if(scaleData.scale) {
+                x = prediction.bbox[0]/scaleData.xScale;
+                y = prediction.bbox[1]/scaleData.yScale;
+            } else {
+                x = prediction.bbox[0];
+                y = prediction.bbox[1];
+            }
+
             ctx.globalAlpha = 1.0;
             ctx.fillStyle = "#FFFFFF";
             ctx.fillText(prediction.class, x, y);
