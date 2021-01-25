@@ -1,3 +1,13 @@
+@font-face {
+    font-family: Lato;
+    src: url("./../../../assets/fonts/Lato.ttf");
+}
+
+@font-face {
+    font-family: Osake;
+    src: url("./../../../assets/fonts/Osake.otf");
+}
+
 @keyframes spin { 
     100% { 
         -webkit-transform: rotate(360deg); 
@@ -68,7 +78,7 @@ body {
 #title-bar-title {
     position: relative;
     float: left;
-    font-family: Osake;
+    font-family: Osake, "Osake";
     font-size: 16px;
     margin: 6px 5px;
     z-index: 3;
