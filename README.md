@@ -12,7 +12,7 @@ A Real-Time object detection app. Built with <a href="https://www.electronjs.org
 
 <p align="center">
   <a><img alt="MIT License" src="https://img.shields.io/apm/l/atomic-design-ui.svg?"></a>
-  <a><img alt="Github Release" src="https://img.shields.io/badge/release-v1.0-blue"></a>
+  <a><img alt="Github Release" src="https://img.shields.io/badge/release-v1.0.1-blue"></a>
   <a href="http://makeapullrequest.com">
     <img alt="PRs Welcome"src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat">
   </a>
