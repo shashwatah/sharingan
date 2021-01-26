@@ -108,11 +108,11 @@ const renderOutputCanvas = (mediaType) => {
     
     let mediaHeight = outputMedia.clientHeight;
 
-    let disparity = mediaType === "video" ? 10 : 12;
+    let disparity = mediaType === "video" ? 13 : 14;
     outputCanvas.style.top = `${((450 - mediaHeight)/2)+50+disparity}px`;
 
     outputCanvas.height = mediaHeight;
-    outputCanvas.width = 600;
+    outputCanvas.width = 640;
 
     output.appendChild(outputCanvas);
 }
@@ -175,7 +175,10 @@ const webcamInit = async () => {
         console.log('Error', e);
     }
 
-    navigator.getUserMedia({video: true, audio: false}, (localMediaStream) => {
+    navigator.getUserMedia({video: {
+        height: {min: 250, max: 450},
+        width: {min: 640, max: 640}
+    }, audio: false}, (localMediaStream) => {
         videoStream = localMediaStream;
         outputMedia.srcObject = videoStream;
         videoLoop = true;

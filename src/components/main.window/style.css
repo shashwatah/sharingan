@@ -226,7 +226,7 @@ body {
     left: 25px;
     top: 62px;
     height: 40px;
-    width: 55px;
+    width: 58px;
     background: rgba(0,0,0,0.2);
     clip-path: polygon(0 0, 97% 0%, 0 100%);
     cursor: pointer;
@@ -247,9 +247,8 @@ body {
     position: relative;
     float: left;
     height: 100%;
-    width: 600px;
+    width: 640px;
     z-index: 3;
-    background: blue;
     white-space: nowrap;
     text-align: center;
     background: rgba(0,0,0,0.2);
@@ -267,7 +266,7 @@ body {
     margin-left: -4px;
     max-height: 100%;
     min-height: 250px;
-    width: 600px;
+    width: 640px;
     z-index: 4;
     vertical-align: middle;
 }
@@ -282,7 +281,7 @@ body {
 #output-stats-container {
     position: relative;
     height: 100%;
-    width: 200px;
+    width: 160px;
     float: right;
     text-align: right;
 }
@@ -291,8 +290,8 @@ body {
     position: relative;
     display: inline-block;
     height: 140px;
-    width: 180px;
-    margin-top: 14px;
+    width: 140px;
+    margin-top: 15px;
     background: rgba(0,0,0,0.2);
     clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 0);
     text-align: center;
@@ -307,7 +306,7 @@ body {
     font-weight: bold;
     color: black;
     margin: 0px;
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .output-stat-name {
