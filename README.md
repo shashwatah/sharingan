@@ -7,7 +7,7 @@
 </h1>
 
 <h4 align="center">
-A Real-Time object detection app. Built with <a href="https://www.electronjs.org/">Electron</a>, <a href="https://www.tensorflow.org/js/">Tensorflow.js</a>.
+A Real-Time object detection app. Built with <a href="https://www.electronjs.org/">Electron</a>, and <a href="https://www.tensorflow.org/js/">Tensorflow.js</a>.
 </h4>
 
 <p align="center">
