@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-    <img src="https://github.com/Araekiel/sharingan/blob/master/assets/images/logos/sharingan-fill.png" alt="GitWiz" width="200">
+    <img src="https://github.com/araekiel/sharingan/blob/master/assets/images/logos/sharingan-fill.png" alt="GitWiz" width="200">
   <br>
   Sharingan
   <br>
@@ -27,8 +27,8 @@ A Real-Time object detection app, built with <a href="https://www.electronjs.org
   <a href="#license">License</a>
 </p>
 
-<img alt="Screenshot 1" src="https://raw.githubusercontent.com/Araekiel/sharingan/master/assets/images/screenshots/2.JPG">
-<img alt="Screenshot 2" src="https://raw.githubusercontent.com/Araekiel/sharingan/master/assets/images/screenshots/3.JPG">
+<img alt="Screenshot 1" src="https://raw.githubusercontent.com/araekiel/sharingan/master/assets/images/screenshots/2.JPG">
+<img alt="Screenshot 2" src="https://raw.githubusercontent.com/araekiel/sharingan/master/assets/images/screenshots/3.JPG">
 
 ## Prerequisites
 
