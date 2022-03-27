@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-    <img src="https://github.com/araekiel/sharingan/blob/main/assets/images/logos/sharingan-fill.png" alt="GitWiz" width="200">
+    <img src="https://github.com/araekiel/sharingan/blob/main/assets/images/logos/sharingan-fill.png" alt="Sharingan" width="200">
   <br>
   Sharingan
   <br>
@@ -103,4 +103,4 @@ $ npm run package-mac
 
 ## License
 
-[MIT License](https://github.com/araekiel/sharingan/blob/master/LICENSE) | Copyright (c) 2022 Kumar Shashwat
+[MIT License](https://github.com/araekiel/sharingan/blob/main/LICENSE) | Copyright (c) 2022 Kumar Shashwat
