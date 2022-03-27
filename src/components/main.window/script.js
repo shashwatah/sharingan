@@ -186,7 +186,7 @@ const webcamInit = async () => {
 }
 // Util Functions
 
-// Object Detection 
+// Object Detection: This should have been in a separate file.
 const detectFrame = (media, mediaType, scaleData, model) => {
     model.detect(media).then(predictions => {
         renderPredictions(predictions, scaleData);
