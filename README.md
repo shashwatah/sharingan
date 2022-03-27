@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-    <img src="https://github.com/araekiel/sharingan/blob/master/assets/images/logos/sharingan-fill.png" alt="GitWiz" width="200">
+    <img src="https://github.com/araekiel/sharingan/blob/main/assets/images/logos/sharingan-fill.png" alt="GitWiz" width="200">
   <br>
   Sharingan
   <br>
@@ -13,22 +13,18 @@ A Real-Time object detection app, built with <a href="https://www.electronjs.org
 <p align="center">
   <a><img alt="MIT License" src="https://img.shields.io/apm/l/atomic-design-ui.svg?"></a>
   <a><img alt="Github Release" src="https://img.shields.io/badge/release-v1.0.2-blue"></a>
-  <a href="http://makeapullrequest.com">
-    <img alt="PRs Welcome"src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat">
-  </a>
 </p>
 
 <p align="center">
   <a href="#prerequisites">Prerequisites</a> •
   <a href="#installation">Installation</a> •
   <a href="#run--package">Run & Package</a> •
-  <a href="#contribution">Contribution</a> •
   <a href="#authors">Authors</a> •
   <a href="#license">License</a>
 </p>
 
-<img alt="Screenshot 1" src="https://raw.githubusercontent.com/araekiel/sharingan/master/assets/images/screenshots/2.JPG">
-<img alt="Screenshot 2" src="https://raw.githubusercontent.com/araekiel/sharingan/master/assets/images/screenshots/3.JPG">
+<img alt="Screenshot 1" src="https://raw.githubusercontent.com/araekiel/sharingan/main/assets/images/screenshots/2.JPG">
+<img alt="Screenshot 2" src="https://raw.githubusercontent.com/araekiel/sharingan/main/assets/images/screenshots/3.JPG">
 
 ## Prerequisites
 
@@ -66,7 +62,7 @@ $ npm --version
 Clone the repo and cd into the directory: 
 
 ```bash
-$ git clone https://github.com/Araekiel/sharingan.git
+$ git clone https://github.com/araekiel/sharingan.git
 $ cd sharingan 
 ```
 
@@ -101,15 +97,10 @@ For Mac:
 $ npm run package-mac
 ```
 
-## Contribution
-
-Fork the repository and open a pull request to contribute.
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
 ## Authors
 
-- **Araekiel** - [Github](https://github.com/Araekiel)
+- **araekiel** - [Github](https://github.com/araekiel)
 
 ## License
 
-[MIT License](https://github.com/Araekiel/sharingan/blob/master/LICENSE) | Copyright (c) 2021 Kumar Shashwat
+[MIT License](https://github.com/araekiel/sharingan/blob/master/LICENSE) | Copyright (c) 2022 Kumar Shashwat
