@@ -11,7 +11,7 @@ A Real-Time object detection app, built with <a href="https://www.electronjs.org
 </h4>
 
 <p align="center">
-  <a><img alt="MIT License" src="https://img.shields.io/apm/l/atomic-design-ui.svg?"></a>
+  <a href="LICENSE"><img alt="Release" src="https://img.shields.io/badge/license-MIT-green"></a>
   <a><img alt="Github Release" src="https://img.shields.io/badge/release-v1.0.2-blue"></a>
 </p>
 
