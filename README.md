@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-    <img src="https://github.com/araekiel/sharingan/blob/main/assets/images/logos/sharingan-fill.png" alt="Sharingan" width="200">
+    <img src="https://raw.githubusercontent.com/shashwatah/sharingan/main/assets/images/logos/sharingan-fill.png" alt="Sharingan" width="200">
   <br>
   Sharingan
   <br>
@@ -19,12 +19,11 @@ A Real-Time object detection app, built with <a href="https://www.electronjs.org
   <a href="#prerequisites">Prerequisites</a> •
   <a href="#installation">Installation</a> •
   <a href="#run--package">Run & Package</a> •
-  <a href="#authors">Authors</a> •
   <a href="#license">License</a>
 </p>
 
-<img alt="Screenshot 1" src="https://raw.githubusercontent.com/araekiel/sharingan/main/assets/images/screenshots/2.JPG">
-<img alt="Screenshot 2" src="https://raw.githubusercontent.com/araekiel/sharingan/main/assets/images/screenshots/3.JPG">
+<img alt="Screenshot 1" src="https://raw.githubusercontent.com/shashwatah/sharingan/main/assets/images/screenshots/2.JPG">
+<img alt="Screenshot 2" src="https://raw.githubusercontent.com/shashwatah/sharingan/main/assets/images/screenshots/3.JPG">
 
 ## Prerequisites
 
@@ -62,7 +61,7 @@ $ npm --version
 Clone the repo and cd into the directory: 
 
 ```bash
-$ git clone https://github.com/araekiel/sharingan.git
+$ git clone https://github.com/shashwatah/sharingan.git
 $ cd sharingan 
 ```
 
@@ -97,10 +96,6 @@ For Mac:
 $ npm run package-mac
 ```
 
-## Authors
-
-- **araekiel** - [Github](https://github.com/araekiel)
-
 ## License
 
-[MIT License](https://github.com/araekiel/sharingan/blob/main/LICENSE) | Copyright (c) 2022 Kumar Shashwat
+[MIT License](https://github.com/shashwatah/sharingan/blob/main/LICENSE) | Copyright (c) 2024 Kumar Shashwat
